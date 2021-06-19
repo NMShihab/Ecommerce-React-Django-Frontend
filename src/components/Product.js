@@ -4,10 +4,11 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Product = (props) => {
+  console.log(props.product);
   return (
     <Card className="p-3 my-3 rounded">
       <Link to={`/product/${props.product._id}`}>
-        <Card.Img src={props.product.image} />
+        <Card.Img src={`http://127.0.0.1:8000${props.product.image}`} />
       </Link>
       <Card.Body>
         <Link to={`/product/${props.product._id}`}>
@@ -17,7 +18,7 @@ const Product = (props) => {
           <div className="my-3">
             <Rating
               value={props.product.rating}
-              text={`${props.product.numReviews}`}
+              text={`${props.product.numberOfReviews}`}
               color={"#f8e825"}
             />
           </div>
