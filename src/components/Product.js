@@ -4,7 +4,6 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Product = (props) => {
-  console.log(props.product);
   return (
     <Card className="p-3 my-3 rounded">
       <Link to={`/product/${props.product._id}`}>
