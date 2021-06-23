@@ -12,7 +12,9 @@ const HomePage = () => {
   const { error, loading, products } = productList;
   useEffect(() => {
     dispatch(listProductActions());
-  }, []);
+  }, [dispatch]);
+  console.log("products type : ", typeof products);
+  console.log(products);
 
   return (
     <div>
