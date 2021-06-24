@@ -11,7 +11,7 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import { addToCartAction } from "../actions/cartAction";
+import { addToCartAction, removeCartItemAction } from "../actions/cartAction";
 
 const CartPage = (props) => {
   const productId = props.match.params.id;
@@ -32,10 +32,17 @@ const CartPage = (props) => {
     }
   }, [dispatch, productId, qty]);
 
+  const removeItemhandler = (id) => {
+    dispatch(removeCartItemAction(id));
+  };
+  const checkoutHandler = () => {
+    props.history.push("/login?redirect=shipping");
+  };
+
   return (
     <Row>
+      <h1>Cart Items</h1>
       <Col md={8}>
-        <h1>Cart Items</h1>
         {cartItems.length === 0 ? (
           <Message variant="info">
             Your cart is empty <Link to="/">Go Back</Link>
@@ -51,10 +58,10 @@ const CartPage = (props) => {
                   <Col md={3}>
                     <Link to={`/product/${item.product}`}>{item.name}</Link>
                   </Col>
-                  <Col md={3}>
+                  <Col md={2}>
                     <p>{(item.price * item.qty).toFixed(2)}</p>
                   </Col>
-                  <Col md={2}>
+                  <Col md={3}>
                     <Form.Control
                       as="select"
                       value={item.qty}
@@ -71,11 +78,50 @@ const CartPage = (props) => {
                       ))}
                     </Form.Control>
                   </Col>
+                  <Col md={2}>
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => removeItemhandler(item.product)}
+                    >
+                      <i className="fas fa-trash"></i>
+                    </Button>
+                  </Col>
                 </Row>
               </ListGroup.Item>
             ))}
           </ListGroup>
         )}
+      </Col>
+
+      <Col md={4}>
+        <Card>
+          <ListGroup variant="flush">
+            <ListGroup.Item>
+              <h2>Total</h2>
+              <h3>
+                Items : {cartItems.reduce((acc, item) => acc + item.qty, 0)}
+              </h3>
+              <h3>
+                Price :{" "}
+                {cartItems
+                  .reduce((acc, item) => acc + item.price * item.qty, 0)
+                  .toFixed(2)}
+              </h3>
+            </ListGroup.Item>
+          </ListGroup>
+        </Card>
+        <ListGroup.Item>
+          <Button
+            type="primary"
+            size="lg"
+            block
+            disabled={cartItems.length === 0}
+            onClick={checkoutHandler}
+          >
+            CheckOut
+          </Button>
+        </ListGroup.Item>
       </Col>
     </Row>
   );
