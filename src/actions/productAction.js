@@ -21,8 +21,8 @@ export const listProductActions = () => async (dispatch) => {
     dispatch({
       type: API_REQUEST_FAILED,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data.detail
+          ? error.response.data.detail
           : error.message,
     });
   }
@@ -41,8 +41,8 @@ export const detailProductActions = (id) => async (dispatch) => {
     dispatch({
       type: PRODUCT_DETAIL_FAILED,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
+        error.response && error.response.data.detail
+          ? error.response.data.detail
           : error.message,
     });
   }

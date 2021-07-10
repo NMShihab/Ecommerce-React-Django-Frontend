@@ -109,7 +109,7 @@ const ProductPage = (props) => {
                 <ListGroup.Item>
                   <Button
                     onClick={handleCartListener}
-                    disabled={product.countInStock == 0}
+                    disabled={product.countInStock === 0}
                     className="btn-block"
                     type="button"
                   >
