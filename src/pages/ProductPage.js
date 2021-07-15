@@ -26,7 +26,7 @@ const ProductPage = (props) => {
   useEffect(() => {
     dispatch(detailProductActions(props.match.params.id));
   }, [dispatch, props.match]);
-  // console.log(props);
+  console.log(props);
 
   const handleQty = (e) => SetQty(e.target.value);
   const handleCartListener = () => {

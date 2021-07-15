@@ -10,6 +10,7 @@ import {
   USER_DETAIL_REQUEST,
   USER_DETAIL_SUCCESS,
   USER_DETAIL_FAIL,
+  USER_DETAIL_RESET,
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
@@ -26,7 +27,7 @@ export const logInAction = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "http://127.0.0.1:8000/login/",
+      "/login/",
       { username: email, password: password },
       config
     );
@@ -51,6 +52,7 @@ export const logInAction = (email, password) => async (dispatch) => {
 export const logoutAction = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_DETAIL_RESET });
 };
 
 export const signupAction = (name, email, password) => async (dispatch) => {
@@ -63,7 +65,7 @@ export const signupAction = (name, email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "http://127.0.0.1:8000/signup/",
+      "/signup/",
       { name: name, email: email, password: password },
       config
     );
@@ -102,10 +104,7 @@ export const userDetailsAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `http://127.0.0.1:8000/user/${id}/`,
-      config
-    );
+    const { data } = await axios.get(`/user/${id}/`, config);
 
     dispatch({
       type: USER_DETAIL_SUCCESS,
@@ -135,11 +134,7 @@ export const userUpdateAction = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      "http://127.0.0.1:8000/user/profile/update/",
-      user,
-      config
-    );
+    const { data } = await axios.put("/user/profile/update/", user, config);
 
     dispatch({
       type: USER_UPDATE_SUCCESS,
