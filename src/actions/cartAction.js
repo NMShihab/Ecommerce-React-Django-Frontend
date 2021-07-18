@@ -45,5 +45,5 @@ export const savePaymentMethodAction = (data) => (dispatch) => {
     type: CART_SAVE_PAYMENT_METHOD,
     payload: data,
   });
-  localStorage.setItem("pymentMethod", JSON.stringify(data));
+  localStorage.setItem("paymentMethod", JSON.stringify(data));
 };

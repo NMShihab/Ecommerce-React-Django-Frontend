@@ -6,7 +6,7 @@ import {
 } from "../constant/constant";
 
 export const cartItemReducer = (
-  state = { cartItems: [], shippingAddress: {} },
+  state = { cartItems: [], shippingAddress: {}, paymentMethod: {} },
   action
 ) => {
   switch (action.type) {
