@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Message from "../components/Message";
 import { useDispatch, useSelector } from "react-redux";
 import OrderStep from "../components/OrderStep";
+import { orderCreateAction } from "../actions/orderAction";
+import { ORDER_CREATE_RESET } from "../constant/constant";
 
 const PlaceOrderPage = (props) => {
+  const orderCreate = useSelector((state) => state.orderCreate);
+  const { order, error, success } = orderCreate;
+
+  const dispatch = useDispatch();
+
   const cart = useSelector((state) => state.cart);
   const { cartItems, shippingAddress } = cart;
 
@@ -13,8 +21,26 @@ const PlaceOrderPage = (props) => {
   const taxPrice = Number((0.15 * items).toFixed(2));
   const totalPrice = Number(items) + Number(shippingPrice) + Number(taxPrice);
 
+  useEffect(() => {
+    if (success) {
+      props.history.push(`/order/${order._id}`);
+      dispatch({ type: ORDER_CREATE_RESET });
+    }
+  }, [success, props.history]);
+
   const placeOrderHandler = (e) => {
     e.preventDefault();
+    dispatch(
+      orderCreateAction({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemPrice: items,
+        shippingPrice: shippingPrice,
+        taxPrice: taxPrice,
+        totalPrice: totalPrice,
+      })
+    );
   };
   return (
     <div>
@@ -90,11 +116,15 @@ const PlaceOrderPage = (props) => {
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
+                {error && <Message variant="danger">{error}</Message>}
+              </ListGroup.Item>
+
+              <ListGroup.Item>
                 <Button
                   type="submit"
                   className="btn-block"
                   disabled={cartItems === 0}
-                  onclick={placeOrderHandler}
+                  onClick={placeOrderHandler}
                 >
                   Place Order
                 </Button>
