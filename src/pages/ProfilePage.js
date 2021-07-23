@@ -6,6 +6,7 @@ import FormContainer from "../components/FormContainer";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { userDetailsAction, userUpdateAction } from "../actions/userAction";
+
 import { USER_UPDATE_RESET } from "../constant/constant";
 
 const ProfilePage = (props) => {
