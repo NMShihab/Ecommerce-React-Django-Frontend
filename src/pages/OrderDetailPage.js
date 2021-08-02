@@ -25,7 +25,6 @@ const OrderDetailPage = (props) => {
       dispatch(detailOrderActions(order_id));
     }
   }, [order, order_id]);
-  console.log(orderDetail);
 
   return loading ? (
     <Loader />
@@ -40,15 +39,35 @@ const OrderDetailPage = (props) => {
             <ListGroup.Item>
               <h1>Shipping</h1>
               <p>
+                {" "}
+                <strong>Name :</strong> {order.user.name}
+              </p>
+              <p>
+                <strong>Email :</strong>{" "}
+                <a href={`mailto:${order.user.email}`}> {order.user.email}</a>{" "}
+              </p>
+              <p>
                 <strong>Address :</strong> {order.shippingAddress.address},{" "}
                 {order.shippingAddress.city}, {order.shippingAddress.postalCode}
                 , {order.shippingAddress.country}
+                {order.isDelivered ? (
+                  <Message variant="success">
+                    Delivered at: {order.deliveredAt}
+                  </Message>
+                ) : (
+                  <Message variant="warning">Not Delivered</Message>
+                )}
               </p>
             </ListGroup.Item>
             <ListGroup.Item>
               <h1>Payment Method</h1>
               <strong>Method : </strong>
               {order.paymentMethod}
+              {order.isPaid ? (
+                <Message variant="success">Paid</Message>
+              ) : (
+                <Message variant="warning">Not paid</Message>
+              )}
             </ListGroup.Item>
 
             <ListGroup.Item>

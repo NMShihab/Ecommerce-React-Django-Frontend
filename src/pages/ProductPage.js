@@ -26,7 +26,6 @@ const ProductPage = (props) => {
   useEffect(() => {
     dispatch(detailProductActions(props.match.params.id));
   }, [dispatch, props.match]);
-  console.log(props);
 
   const handleQty = (e) => SetQty(e.target.value);
   const handleCartListener = () => {
@@ -35,7 +34,7 @@ const ProductPage = (props) => {
 
   return (
     <div>
-      <Link to="/" className="btn btn-light my-3">
+      <Link to="/" className="my-3 btn btn-light">
         Go Back
       </Link>
       {loading ? (
