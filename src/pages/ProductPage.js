@@ -88,8 +88,8 @@ const ProductPage = (props) => {
                 {product.countInStock > 0 && (
                   <ListGroup.Item>
                     <Row>
-                      <Col>Qty</Col>
-                      <Col xs="auto" className="my-1">
+                      <Col>Qty:</Col>
+                      <Col xs="auto">
                         <Form.Control
                           as="select"
                           value={qty}

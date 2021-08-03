@@ -16,6 +16,10 @@ import {
   USER_UPDATE_FAIL,
   USER_UPDATE_RESET,
   ORDER_LIST_RESET,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL,
+  USER_LIST_RESET,
 } from "../constant/constant";
 
 export const logInAction = (email, password) => async (dispatch) => {
@@ -55,6 +59,7 @@ export const logoutAction = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAIL_RESET });
   dispatch({ type: ORDER_LIST_RESET });
+  dispatch({ type: USER_LIST_RESET });
 };
 
 export const signupAction = (name, email, password) => async (dispatch) => {
@@ -151,6 +156,36 @@ export const userUpdateAction = (user) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const userListAction = () => async (dispatch, getState) => {
+  const {
+    userLogin: { userInfo },
+  } = getState();
+  try {
+    dispatch({ type: USER_LIST_REQUEST });
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get("/users", config);
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail

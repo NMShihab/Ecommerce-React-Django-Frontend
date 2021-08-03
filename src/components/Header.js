@@ -8,6 +8,7 @@ const Header = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
   const dispatch = useDispatch();
+  console.log(userInfo);
 
   const logoutHandler = () => {
     console.log("logout");
@@ -44,6 +45,14 @@ const Header = () => {
                     <i className="fas fa-user"></i>Login
                   </Nav.Link>
                 </LinkContainer>
+              )}
+
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title="Admin" id="admin">
+                  <LinkContainer to="/admin/users">
+                    <Nav.Link>Users</Nav.Link>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
