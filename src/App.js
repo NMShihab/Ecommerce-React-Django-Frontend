@@ -13,6 +13,7 @@ import PaymentPage from "./pages/PaymentPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderDetailPage from "./pages/OrderDetailPage";
 import UserListPage from "./pages/UserListPage";
+import AdminUserEditPage from "./pages/AdminUserEditPage";
 
 function App() {
   return (
@@ -24,7 +25,11 @@ function App() {
           <Route path="/login" component={LoginPage} />
           <Route path="/signup" component={SignupPage} />
           <Route path="/profile" component={ProfilePage} />
-          <Route path="/admin/users" component={UserListPage} />
+          <Route path="/admin/users" component={UserListPage} exact />
+          <Route
+            path="/admin/users/profile/:id"
+            component={AdminUserEditPage}
+          />
           <Route path="/product/:id" component={ProductPage} />
           <Route path="/cart/:id?" component={CartPage} />
           <Route path="/shipping" component={ShippingPage} />
