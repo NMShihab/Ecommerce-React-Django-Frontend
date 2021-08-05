@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userListAction } from "../actions/userAction";
+import { userListAction, userDeleteAction } from "../actions/userAction";
 import UserList from "../components/UserList";
 
 const UserListPage = (props) => {
@@ -9,6 +9,8 @@ const UserListPage = (props) => {
   const { userInfo } = userLogin;
   const userList = useSelector((state) => state.userList);
   const { loading, users, error } = userList;
+  const deleteUser = useSelector((state) => state.deleteUser);
+  const { success: successDelete } = deleteUser;
 
   useEffect(() => {
     if (!userInfo) {
@@ -18,10 +20,11 @@ const UserListPage = (props) => {
     } else {
       dispatch(userListAction());
     }
-  }, [userInfo, dispatch, props.history]);
+  }, [userInfo, dispatch, props.history, successDelete]);
 
   const deleteUserHandler = (e) => {
     console.log(e);
+    dispatch(userDeleteAction(e));
   };
 
   return (
