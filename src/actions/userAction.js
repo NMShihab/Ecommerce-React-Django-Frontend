@@ -23,6 +23,14 @@ import {
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
+  PROFILE_DETAIL_REQUEST,
+  PROFILE_DETAIL_SUCCESS,
+  PROFILE_DETAIL_FAIL,
+  PROFILE_DETAIL_RESET,
+  PROFILE_UPDATE_REQUEST,
+  PROFILE_UPDATE_SUCCESS,
+  PROFILE_UPDATE_FAIL,
+  PROFILE_UPDATE_RESET,
 } from "../constant/constant";
 
 export const logInAction = (email, password) => async (dispatch) => {
@@ -63,6 +71,7 @@ export const logoutAction = () => (dispatch) => {
   dispatch({ type: USER_DETAIL_RESET });
   dispatch({ type: ORDER_LIST_RESET });
   dispatch({ type: USER_LIST_RESET });
+  dispatch({ type: PROFILE_DETAIL_RESET });
 };
 
 export const signupAction = (name, email, password) => async (dispatch) => {
@@ -219,6 +228,72 @@ export const userDeleteAction = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const profileDetailAction = (id) => async (dispatch, getState) => {
+  const {
+    userLogin: { userInfo },
+  } = getState();
+  try {
+    dispatch({ type: PROFILE_DETAIL_REQUEST });
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/profile/${id}/`, config);
+
+    dispatch({
+      type: PROFILE_DETAIL_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_DETAIL_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const profileUpdateAction = (id, user) => async (dispatch, getState) => {
+  const {
+    userLogin: { userInfo },
+  } = getState();
+  try {
+    dispatch({ type: PROFILE_UPDATE_REQUEST });
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/profile/update/${id}/`, user, config);
+
+    dispatch({
+      type: PROFILE_UPDATE_SUCCESS,
+      payload: data,
+    });
+
+    // dispatch({
+    //   type: USER_LOGIN_SUCCESS,
+    //   payload: data,
+    // });
+    // localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: PROFILE_UPDATE_FAIL,
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail

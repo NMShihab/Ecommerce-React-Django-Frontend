@@ -21,6 +21,14 @@ import {
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
+  PROFILE_DETAIL_REQUEST,
+  PROFILE_DETAIL_SUCCESS,
+  PROFILE_DETAIL_FAIL,
+  PROFILE_DETAIL_RESET,
+  PROFILE_UPDATE_REQUEST,
+  PROFILE_UPDATE_SUCCESS,
+  PROFILE_UPDATE_FAIL,
+  PROFILE_UPDATE_RESET,
 } from "../constant/constant";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -125,6 +133,44 @@ export const userDeleteReducer = (state = {}, action) => {
 
     case USER_DELETE_FAIL:
       return { loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
+
+export const profileDetailReducer = (state = { profile: {} }, action) => {
+  switch (action.type) {
+    case PROFILE_DETAIL_REQUEST:
+      return { ...state, loading: true };
+
+    case PROFILE_DETAIL_SUCCESS:
+      return { loading: false, profile: action.payload };
+
+    case PROFILE_DETAIL_FAIL:
+      return { loading: false, error: action.payload };
+
+    case PROFILE_DETAIL_RESET:
+      return { profile: {} };
+
+    default:
+      return state;
+  }
+};
+
+export const profileUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PROFILE_UPDATE_REQUEST:
+      return { loading: true };
+
+    case PROFILE_UPDATE_SUCCESS:
+      return { loading: false, success: true, userInfo: action.payload };
+
+    case PROFILE_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+
+    case PROFILE_UPDATE_RESET:
+      return {};
 
     default:
       return state;

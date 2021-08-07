@@ -61,7 +61,6 @@ const ProfilePage = (props) => {
 
   const updateHandler = (e) => {
     e.preventDefault();
-    console.log({ name, email, password });
     if (password !== confirmPassword) {
       setMessage("Password did not match. Please try again");
     } else {
